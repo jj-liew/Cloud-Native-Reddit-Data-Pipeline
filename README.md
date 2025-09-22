@@ -1,7 +1,44 @@
 # Cloud-Native-Reddit-Data-Pipeline
-This project implements an event-driven data analytics system that extracts insights from Reddit posts and comments mentioning coffee. 
-# Data streaming
+This repository contains the backend system to a group project that built a cloud-native Reddit data pipeline. The overall system was deployed on a Kubernetes cluster using Fission serverless functions, with data harvested from Reddit using PRAW, processed with NLP, and stored in Elasticsearch for advanced analytics. This repo highlights my individual contribution within a larger group project. The full system included additional components not reflected here (handled by other team members).
 
+## Content
+My specific role focused on data ingestion, processing, and NLP analysis, which is documented in this repository.
+### Repo Structure
+```
+fission_functions/
+    ├── addReddit/
+    ├── enqueue/
+    ├── reddit_harvest/
+    ├── redditProcessor/
+    ├── specs/
+    └── specs_processor/
+LICENSE
+README.md
+redisinsight.yaml         
+```
+### Functions
+Each function folder contains the corresponding Python file, build script and requirements.txt.
+- addReddit: Store enqueued Reddit data into Elasticsearch
+- enqueue: Enqueue Reddit data into Redis
+- reddit_harvest: Harvest data from Reddit using PRAW
+- redditProcessor: Process Reddit data with NLP workflow
+
+### Fission specs
+The spec folders contain all the required yaml files to configure the functions, including trigger events and shared parameters.
+- specs: The specifications for the data streaming pipeline.
+- specs_processor: The specifications for the data processing pipeline.
+
+### Workflow
+1. Harvest Reddit posts/comments with PRAW.
+2. Enqueue raw data into Redis.
+3. Store data into Elasticsearch with custom index mappings.
+4. Run NLP analysis (VADER sentiment, LDA topic modeling).
+5. Push processed results back to Elasticsearch for analytics dashboards.
+
+### Logical Architecture Diagram
+<img width="1261" height="611" alt="Logical Layered Architecture(2)" src="https://github.com/user-attachments/assets/eea68d87-58b7-4c69-a5c8-4916f38a9b4c" />
+
+## Data streaming
 The data streaming pipeline can be deployed by applying specs and specs_processor in the fission_functions directory to the Kubernetes cluster. These two spec folders contain all the YAML file to create the functions and the corresponding event triggers.
 ```bash
 fission spec apply --specdir specs
