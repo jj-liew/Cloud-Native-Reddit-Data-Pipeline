@@ -1,0 +1,11 @@
+apiVersion: fission.io/v1
+kind: TimeTrigger
+metadata:
+  creationTimestamp: null
+  name: reddit-ingest-aus
+spec:
+  cron: '@every 60s'
+  functionref:
+    functionweights: null
+    name: rharvesteraus
+    type: name

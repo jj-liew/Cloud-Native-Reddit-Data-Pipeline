@@ -1,0 +1,11 @@
+apiVersion: fission.io/v1
+kind: TimeTrigger
+metadata:
+  creationTimestamp: null
+  name: addreddit
+spec:
+  cron: '@every 60s'
+  functionref:
+    functionweights: null
+    name: addreddit
+    type: name

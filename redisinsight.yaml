@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: redis-insight
+  name: redis-insight
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis-insight
+  template:
+    metadata:
+      labels:
+        app: redis-insight
+    spec:
+      containers:
+        - image: redislabs/redisinsight:2.66
+          name: redis-insight
+          ports:
+            - containerPort: 5540
+              name: redis-ui-port
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-insight
+spec:
+  selector:
+    app: redis-insight
+  ports:
+    - port: 5540
+      targetPort: 5540
+      protocol: TCP
+      name: redis-ui-port
